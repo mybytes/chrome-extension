@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="myBytes" ng-csp>
+<html ng-app="myBytes" ng-csp="">
     <head>
         <link rel="stylesheet" href="css/popup.css">
         <script src="js/lib/angular.min.js"></script>
@@ -13,16 +13,28 @@
         </header>
 
         <div ng-controller="PageController">
-            <div>{{message}}</div>
-            <h2>Page:</h2>
-            <div>{{title}}</div>
-            <div>{{url}}</div>
-            <h2>Has Links:</h2>
-            <ul>
-                <li ng-repeat="pageInfo in pageInfos">
-                    <div>{{pageInfo.url}}</div>
-                </li>                       
-            </ul>
+            <div ng-switch on="authorizationState">
+                <div ng-switch-when="hasAuthorized">
+                    myBytes is already collecting your data from this site.
+                    <div>
+                        Data collection status:
+                        <table>
+                            <tr><th>Date</th><th>Description</th></tr>
+                            <tr ng-repeat="job in jobs">
+                                <td>{{job.date}}</td>
+                                <td>{{job.description}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div ng-switch-when="needToAuthorize">
+                    <a href="#">Authorize myBytes to collect data from this site</a>
+                </div>
+                <div ng-switch-default>
+                    myBytes cannot collect data from this site.
+                    <a href="#">Get involved</a> so we can!
+                </div>
+            </div>
         </div>
     </body>
 </html>
